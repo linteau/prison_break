@@ -10,4 +10,6 @@ ruby skills.
 
 Any feedback is welcomed.
 
+Thanks,
+
 Andy
