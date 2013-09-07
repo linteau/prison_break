@@ -8,7 +8,7 @@ module Utility
     else
     puts "Hey, you died man... bad move."
     lives = lives - 1
-    puts lives
+    puts "You have %s lives left!" % lives
     return lives
     end
   end
