@@ -14,6 +14,12 @@ class Cell
     if your_move.include? "escape" 
       self.cell_part_two(lives)
     elsif your_move.include? "chances"
+      puts <<-eos
+      You are one who is opposed to risk because you don't want any
+      harml. Unfortunatley, you risk free tendancies have do not
+      pay off. Your cell mate tries to take your food, and you refuse.
+      So he stabs you to death with at plastic spork.
+      eos
       lives = Utility.you_died(lives)
       self.cell_challenge(lives)
     else
@@ -28,7 +34,7 @@ class Cell
     is bending down to pick something up. His keys and his gun are 
     within your reach, but you can't make a sound while approaching him.
     What is your next move?
-eos
+    eos
     Utility.prompt(); your_move = gets.chomp
     if your_move.include? "take" && "keys" && "gun"
       puts "you took the keys and gun"
@@ -129,6 +135,7 @@ class Booking
         
         You got out!!!
         eos
+        Process.exit(0)
       elsif @clothes == false
         puts <<-eos
         You lift the grate and jummp into the gutter. Luckily, the gutter is empty, and 
@@ -159,17 +166,3 @@ class Booking
     end
   end
 end
-
-# class Lives
-#   def initialize
-#     @lives = 7
-#   end
-#   
-#   def you_died
-#     lives = @lives
-#     lives = lives - 1
-#     puts lives
-#     Utility.start_over?()
-#     return lives
-#   end
-# end
