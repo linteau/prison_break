@@ -20,16 +20,22 @@ class Cell
       What is your next move?
   eos
       Utility.prompt(); your_move = gets.chomp
-      if your_move.include? "take" && "keys" && "gun"
-        puts "you took the keys and gun"
-       Corridor.new().enter_corridor()
-      else
-        Utility.you_died()
-      end
+      self.cell_part_two(your_move)
     elsif your_move.include? "chances"
       Utility.you_died()
     else
       Utility.what?()
+      self.cell_challenge()
+    end
+  end
+  
+  def cell_part_two(your_move)
+    if your_move.include? "take" && "keys" && "gun"
+      puts "you took the keys and gun"
+     Corridor.new().enter_corridor()
+    else
+      Utility.what?()
+      self.cell_challenge()
     end
   end
 end
@@ -74,6 +80,7 @@ class Corridor
     Utility.you_died()
   else
     Utility.what?()
+    self.enter_corridor()
   end
     
   end
@@ -97,6 +104,7 @@ class Booking
       self.empty_gutter(@clothes)
     else
       Utility.what?()
+      self.enter_booking_room()
     end
   end
   
