@@ -1,10 +1,16 @@
 require_relative 'rooms'
 
 module Utility
-  
-  def Utility.you_died()
+  def Utility.you_died(lives)
+    if lives < 1
+      puts "You have died for reallll. GAME OVER!!!"
+      Process.exit(0)
+    else
     puts "Hey, you died man... bad move."
-    Utility.start_over?()
+    lives = lives - 1
+    puts lives
+    return lives
+    end
   end
   
   def Utility.start_over?
@@ -17,8 +23,7 @@ module Utility
       Utility.what?()
     end
   end
-    
-  
+      
   def Utility.what?
     puts "I don't understand your answer man!"
   end
@@ -32,12 +37,14 @@ end
 class Game
   
  def initialize()
-   @cell = Cell.new()
+   
  end
  
  def play
-   @cell.cell_challenge
+   lives = 7
+   Cell.new.cell_challenge(lives)
  end
+ 
 end
 
 

@@ -1,7 +1,6 @@
 
 class Cell
-  
-  def cell_challenge
+  def cell_challenge(lives)
     puts <<-eos
     You wake up in a cell for a crime you didn't do. You are
     a law abiding citizen who was at the wrong place at the 
@@ -13,16 +12,17 @@ class Cell
   Utility.prompt(); your_move = gets.chomp
   
     if your_move.include? "escape" 
-      self.cell_part_two()
+      self.cell_part_two(lives)
     elsif your_move.include? "chances"
-      Utility.you_died()
+      lives = Utility.you_died(lives)
+      self.cell_challenge(lives)
     else
       Utility.what?()
       self.cell_challenge()
     end
   end
   
-  def cell_part_two()
+  def cell_part_two(lives)
     puts <<-eos
     You find your moment of opportunity to escape when a fat guard
     is bending down to pick something up. His keys and his gun are 
@@ -32,7 +32,7 @@ eos
     Utility.prompt(); your_move = gets.chomp
     if your_move.include? "take" && "keys" && "gun"
       puts "you took the keys and gun"
-     Corridor.new().enter_corridor()
+     Corridor.new().enter_corridor(lives)
     else
       Utility.what?()
       self.cell_part_two()
@@ -42,7 +42,7 @@ end
 
 class Corridor
   
-  def enter_corridor
+  def enter_corridor(lives)
     puts <<-eos
     You slowly walked up to the guard, then quickly grab his gun from his
     holster, and demand he give you the keys. You take the keys, put him in your
@@ -62,7 +62,8 @@ class Corridor
     you enter a room full of Correctional Officers. You shoot 3 of them, but you get shot
     from behind by a midget CO.
     eos
-    Utility.you_died()
+    lives = Utility.you_died(lives)
+    self.enter_corridor(lives)
   elsif your_move.include? "run"
     puts <<-eos
     You start running as fast as you can through the corridor, luckily there is only one person
@@ -70,17 +71,18 @@ class Corridor
     him to go with you. You get to the end of the corridor, open the door, and enter the room where
     where they book people.
     eos
-    Booking.new().enter_booking_room()
+    Booking.new().enter_booking_room(lives)
   elsif your_move.include? "crawl"
     puts <<-eos
     You start crawling through the corridor, and almost get to the end, but since
     it takes you so long, you are spotted by a guard. Before you know it,
     the guard shoots and kills you while you are crawling.
     eos
-    Utility.you_died()
+    lives = Utility.you_died(lives)
+    self.enter_corridor(lives)
   else
     Utility.what?()
-    self.enter_corridor()
+    self.enter_corridor(lives)
   end
     
   end
@@ -90,7 +92,7 @@ class Booking
   def initialize
     @clothes = false
   end
-  def enter_booking_room
+  def enter_booking_room(lives)
     puts <<-eos
     You have entered the booking room, where they process inmates as they come in
     and as they go out. You have access to regular clothes, do you take them?
@@ -98,17 +100,17 @@ class Booking
     Utility.prompt(); your_move = gets.chomp
     if your_move.include? "yes"
       @clothes = true
-      self.empty_gutter(@clothes)
+      self.empty_gutter(@clothes,lives)
     elsif your_move.include? "no"
       @clothes = false
-      self.empty_gutter(@clothes)
+      self.empty_gutter(@clothes, lives)
     else
       Utility.what?()
-      self.enter_booking_room()
+      self.enter_booking_room(lives)
     end
   end
   
-  def empty_gutter(clothes)
+  def empty_gutter(clothes,lives)
     @clothes = clothes
     puts <<-eos
     Looking around the room, you see a gutter through a grate on the floor, a ladder
@@ -134,23 +136,40 @@ class Booking
         a grate above you. You climb out, and a cop sees your wearing prison clothes and
         shoots you on the spot.
         eos
-        Utility.you_died()
+        lives = Utility.you_died(lives)
+        self.empty_gutter(@clothes, lives)
       end
     elsif your_move.include? "ladder"
       puts <<-eos
       You climb up the ladder and are on top of the roof. A guard from a watchtower sees
       you and shoots you on the spot.
       eos
-      Utility.you_died()
+      lives = Utility.you_died(lives)
+      self.empty_gutter(@clothes, lives)
     elsif your_move.include? "door"
       puts <<-eos
       You open the door, only to find a group of armed guards staring at you. You try to run,
       but are shot in the back 5 times.
       eos
-      Utility.you_died()
+      lives = Utility.you_died(lives)
+      self.empty_gutter(@clothes, lives)
     else
       Utility.what?()
-      self.empty_gutter(@clothes)
+      self.empty_gutter(@clothes,lives)
     end
   end
 end
+
+# class Lives
+#   def initialize
+#     @lives = 7
+#   end
+#   
+#   def you_died
+#     lives = @lives
+#     lives = lives - 1
+#     puts lives
+#     Utility.start_over?()
+#     return lives
+#   end
+# end
