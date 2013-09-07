@@ -12,15 +12,8 @@ class Cell
   
   Utility.prompt(); your_move = gets.chomp
   
-    if your_move.include? "escape"
-      puts <<-eos
-      You find your moment of opportunity to escape when a fat guard
-      is bending down to pick something up. His keys and his gun are 
-      within your reach, but you can't make a sound while approaching him.
-      What is your next move?
-  eos
-      Utility.prompt(); your_move = gets.chomp
-      self.cell_part_two(your_move)
+    if your_move.include? "escape" 
+      self.cell_part_two()
     elsif your_move.include? "chances"
       Utility.you_died()
     else
@@ -29,13 +22,20 @@ class Cell
     end
   end
   
-  def cell_part_two(your_move)
+  def cell_part_two()
+    puts <<-eos
+    You find your moment of opportunity to escape when a fat guard
+    is bending down to pick something up. His keys and his gun are 
+    within your reach, but you can't make a sound while approaching him.
+    What is your next move?
+eos
+    Utility.prompt(); your_move = gets.chomp
     if your_move.include? "take" && "keys" && "gun"
       puts "you took the keys and gun"
      Corridor.new().enter_corridor()
     else
       Utility.what?()
-      self.cell_challenge()
+      self.cell_part_two()
     end
   end
 end
@@ -124,6 +124,8 @@ class Booking
         Luckily, the gutter is empty, and you are able to pass through it easily.
         You get to the end of the gutter and see a grate above you and climb out.
         Since you have normal clothes you blend in with the crowd.
+        
+        You got out!!!
         eos
       elsif @clothes == false
         puts <<-eos
@@ -139,6 +141,7 @@ class Booking
       You climb up the ladder and are on top of the roof. A guard from a watchtower sees
       you and shoots you on the spot.
       eos
+      Utility.you_died()
     elsif your_move.include? "door"
       puts <<-eos
       You open the door, only to find a group of armed guards staring at you. You try to run,
@@ -147,6 +150,7 @@ class Booking
       Utility.you_died()
     else
       Utility.what?()
+      self.empty_gutter(@clothes)
     end
   end
 end
