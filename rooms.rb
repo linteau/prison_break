@@ -91,11 +91,54 @@ class Booking
     Utility.prompt(); your_move = gets.chomp
     if your_move.include? "yes"
       @clothes = true
+      self.empty_gutter(@clothes)
     elsif your_move.include? "no"
+      @clothes = false
+      self.empty_gutter(@clothes)
     else
       Utility.what?()
     end
   end
-  def empty_gutter
+  
+  def empty_gutter(clothes)
+    @clothes = clothes
+    puts <<-eos
+    Looking around the room, you see a gutter through a grate on the floor, a ladder
+    that takes you to the roof, and another door that goes to an unknown room. What
+    is your next move?
+    eos
+    your_move = gets.chomp
+    
+    if your_move.include? "gutter"
+      if @clothes == true
+        puts <<-eos
+        You change into your new clothes, lift the grate and jummp into the gutter.
+        Luckily, the gutter is empty, and you are able to pass through it easily.
+        You get to the end of the gutter and see a grate above you and climb out.
+        Since you have normal clothes you blend in with the crowd.
+        eos
+      elsif @clothes == false
+        puts <<-eos
+        You lift the grate and jummp into the gutter. Luckily, the gutter is empty, and 
+        you are able to pass through it easily. You get to the end of the gutter and see 
+        a grate above you. You climb out, and a cop sees your wearing prison clothes and
+        shoots you on the spot.
+        eos
+        Utility.you_died()
+      end
+    elsif your_move.include? "ladder"
+      puts <<-eos
+      You climb up the ladder and are on top of the roof. A guard from a watchtower sees
+      you and shoots you on the spot.
+      eos
+    elsif your_move.include? "door"
+      puts <<-eos
+      You open the door, only to find a group of armed guards staring at you. You try to run,
+      but are shot in the back 5 times.
+      eos
+      Utility.you_died()
+    else
+      Utility.what?()
+    end
   end
 end
