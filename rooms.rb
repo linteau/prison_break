@@ -20,7 +20,7 @@ class Cell
       pay off. Your cell mate tries to take your food, and you refuse.
       So he stabs you to death with at plastic spork.
       eos
-      lives = Utility.you_died(lives)
+      lives = Lives.new().you_died(lives)
       self.cell_challenge(lives)
     else
       Utility.what?()
@@ -68,7 +68,7 @@ class Corridor
     you enter a room full of Correctional Officers. You shoot 3 of them, but you get shot
     from behind by a midget CO.
     eos
-    lives = Utility.you_died(lives)
+    lives = Lives.new().you_died(lives)
     return :enter_corridor
   elsif your_move.include? "run"
     puts <<-eos
