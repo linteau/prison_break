@@ -51,18 +51,6 @@ end
 
 # below is the class that starts the game
 
-class Game
-  
- def initialize(start)
-   @start = start
- end
- 
- def play
-   Runner.new(@start)
- end
- 
-end
-
 class Runner
   def initialize(start)
     @start = start
@@ -104,7 +92,7 @@ class Lives
       puts "Do you want to start over?"
       start_over = gets.chomp
       if start_over == "yes"
-        Game.new(:cell_challenge).play()
+        Runner.new(:cell_challenge)
       elsif start_over == "no"
         puts "okay bye"
       Process.exit(0)
@@ -127,6 +115,4 @@ class Lives
 end
 
 
-game = Game.new(:cell_challenge)
-
-game.play()
+Runner.new(:cell_challenge)
