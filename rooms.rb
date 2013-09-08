@@ -165,7 +165,7 @@ class Booking
         end
       elsif @clothes == false
         puts <<-eos
-    You lift the grate and jummp into the gutter. Luckily, the gutter 
+    You lift the grate and jump into the gutter. Luckily, the gutter 
     is empty, and you are able to pass through it easily. You get to 
     the end of the gutter and see a grate above you. You climb out, 
     and a cop sees your wearing prison clothes and shoots you on the 
