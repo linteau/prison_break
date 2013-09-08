@@ -38,7 +38,7 @@ class Cell
     Utility.prompt(); your_move = gets.chomp
     if your_move.include? "take" && "keys" && "gun"
       puts "you took the keys and gun"
-     Corridor.new().enter_corridor(lives)
+     return :enter_corridor # Corridor.new().enter_corridor(lives)
     else
       Utility.what?()
       self.cell_part_two()
@@ -69,7 +69,7 @@ class Corridor
     from behind by a midget CO.
     eos
     lives = Utility.you_died(lives)
-    self.enter_corridor(lives)
+    return :enter_corridor
   elsif your_move.include? "run"
     puts <<-eos
     You start running as fast as you can through the corridor, luckily there is only one person
@@ -77,7 +77,7 @@ class Corridor
     him to go with you. You get to the end of the corridor, open the door, and enter the room where
     where they book people.
     eos
-    Booking.new().enter_booking_room(lives)
+    return :enter_booking_room # Booking.new().enter_booking_room(lives)
   elsif your_move.include? "crawl"
     puts <<-eos
     You start crawling through the corridor, and almost get to the end, but since

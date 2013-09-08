@@ -49,20 +49,57 @@ module Utility
   
 end
 
+# below is the class that starts the game
+
 class Game
   
- def initialize()
-   
+ def initialize(start)
+   @start = start
  end
  
  def play
-   lives = 7
-   Cell.new.cell_challenge(lives)
+   Runner.new(@start)
  end
  
 end
 
+class Runner
+  def initialize(start)
+    @start = start
+    @lives = 7
+    self.run(start)    
+  end
+  
+  def run(start)
+    start = @start
+    next_room = start
+    while true
+      room = method(next_room)
+      next_room = room.call()
+    end
+  end
+  
+  def cell_challenge
+    @cell = Cell.new().cell_challenge(@lives)
+  end
+  
+  def enter_corridor
+    @corridor = Corridor.new().enter_corridor(@lives)
+  end
+  
+  def enter_booking_room
+    @booking = Booking.new().enter_booking_room(@lives)
+  end
+  
+end
 
-game = Game.new()
+class lives
+  def initialize
+    @lives = 7
+  end
+end
+
+
+game = Game.new(:cell_challenge)
 
 game.play()
