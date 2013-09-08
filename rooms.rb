@@ -24,7 +24,7 @@ class Cell
       self.cell_challenge(lives)
     else
       Utility.what?()
-      self.cell_challenge()
+      self.cell_challenge(lives)
     end
   end
   
@@ -41,7 +41,7 @@ class Cell
      return :enter_corridor # Corridor.new().enter_corridor(lives)
     else
       Utility.what?()
-      self.cell_part_two()
+      self.cell_part_two(lives)
     end
   end
 end
@@ -69,7 +69,7 @@ class Corridor
     from behind by a midget CO.
     eos
     lives = Lives.new().you_died(lives)
-    return :enter_corridor
+    self.enter_corridor(lives)
   elsif your_move.include? "run"
     puts <<-eos
     You start running as fast as you can through the corridor, luckily there is only one person
@@ -134,8 +134,19 @@ class Booking
         Since you have normal clothes you blend in with the crowd.
         
         You got out!!!
+        
+        Do you want to play again?
         eos
-        Process.exit(0)
+        
+        play_again = gets.chomp
+        
+        if play_again == "yes"
+          "Restarting Game........"
+          Game.new(:cell_challenge).play()
+        elsif play_again == "no"
+          puts "Okay, Thanks for playing!"
+          Process.exit(0)
+        end
       elsif @clothes == false
         puts <<-eos
         You lift the grate and jummp into the gutter. Luckily, the gutter is empty, and 
@@ -143,8 +154,8 @@ class Booking
         a grate above you. You climb out, and a cop sees your wearing prison clothes and
         shoots you on the spot.
         eos
-        lives = Utility.you_died(lives)
-        self.empty_gutter(@clothes, lives)
+        lives = Lives.new().you_died(lives)
+        self.enter_booking_room(lives)
       end
     elsif your_move.include? "ladder"
       puts <<-eos

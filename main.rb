@@ -66,7 +66,7 @@ end
 class Runner
   def initialize(start)
     @start = start
-    @lives = 7
+    @lives = 2
     self.run(start)    
   end
   
@@ -104,7 +104,7 @@ class Lives
       puts "Do you want to start over?"
       start_over = gets.chomp
       if start_over == "yes"
-        Game.new().play()
+        Game.new(:cell_challenge).play()
       elsif start_over == "no"
         puts "okay bye"
       Process.exit(0)
